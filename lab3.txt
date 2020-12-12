@@ -1,0 +1,158 @@
+Microsoft Windows [Version 10.0.19041.685]
+(c) Корпорація Майкрософт (Microsoft Corporation), 2020. Усі права захищені.
+
+C:\Users\Користувач>aws ec2 create-security-group --group-name VladSG --description "lab3" --vpc-39915e44
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+Unknown options: --vpc-39915e44
+
+C:\Users\Користувач>aws ec2 create-security-group --group-name VladSG --description "lab3" --vpc-id vpc-39915e44
+{
+    "GroupId": "sg-0aa02912193874307"
+}
+
+
+C:\Users\Користувач>aws ec2 authorize-security-group-ingress --group-id sg-0aa02912193874307 --protocol tcp --port 22 --cidr 0.0.0.0/0
+
+
+C:\Users\Користувач>aws ec2 authorize-security-group-ingress --group-id sg-0aa02912193874307 --protocol tcp --port 80 --cidr 0.0.0.0/0
+
+
+C:\Users\Користувач>aws ec2 authorize-security-group-ingress --group-id sg-0aa02912193874307 --protocol tcp --port 443 --cidr 0.0.0.0/0
+
+
+C:\Users\Користувач>aws ec2 create-key-pair --key-name VladKey --output text > VladKey.pem
+
+C:\Users\Користувач>aws ec2 modify-subnet-attribute --subnet-id subnet-2af5b667 --map-public-ip-on-launch
+
+
+C:\Users\Користувач>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 1 --instance-type t2.micro --key-name VladKey --security-group-ids sg-0aa02912193874307 --subnet-id subnet-2af5b667 --user-data file://UserDate.txt
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-04d29b6f966df1537",
+            "InstanceId": "i-0a3a00a507df0e011",
+            "InstanceType": "t2.micro",
+            "KeyName": "VladKey",
+            "LaunchTime": "2020-12-12T09:51:42+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-1a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-172-31-22-147.ec2.internal",
+            "PrivateIpAddress": "172.31.22.147",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-2af5b667",
+            "VpcId": "vpc-39915e44",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "9d8ca310-83b7-402e-b043-cf34f5f38d74",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2020-12-12T09:51:42+00:00",
+                        "AttachmentId": "eni-attach-0b269ce8afc4fdace",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "VladSG",
+                            "GroupId": "sg-0aa02912193874307"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "0a:f4:d3:dd:cc:db",
+                    "NetworkInterfaceId": "eni-0299eaae3a367f563",
+                    "OwnerId": "331355251771",
+                    "PrivateDnsName": "ip-172-31-22-147.ec2.internal",
+                    "PrivateIpAddress": "172.31.22.147",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateDnsName": "ip-172-31-22-147.ec2.internal",
+                            "PrivateIpAddress": "172.31.22.147"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-2af5b667",
+                    "VpcId": "vpc-39915e44",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "VladSG",
+                    "GroupId": "sg-0aa02912193874307"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            }
+        }
+    ],
+    "OwnerId": "331355251771",
+    "ReservationId": "r-0dccb0269a9a2c181"
+}
+
+
+C:\Users\Користувач>
+C:\Users\Користувач>
+C:\Users\Користувач>
+C:\Users\Користувач>
+C:\Users\Користувач>
+C:\Users\Користувач>
+C:\Users\Користувач>aws ec2 create-tags --resources i-0a3a00a507df0e011 --tags Key=Role,Value=WebServer
+
+
+C:\Users\Користувач>aws ec2 create-image --instance-id i-0a3a00a507df0e011 --name "lab3" --description "Image (Apache Web Server)"
+{
+    "ImageId": "ami-09aee72a39e1faffc"
+}
+
+
+C:\Users\Користувач>
